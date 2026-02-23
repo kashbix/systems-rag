@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "crates/sysrag-common",
+    "crates/sysrag-daemon",
+    "crates/sysrag-cli"
+]
+resolver = "2"

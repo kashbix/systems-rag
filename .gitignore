@@ -1,0 +1,59 @@
+# ------------------------------------------------------------------------------
+# Rust / Cargo
+# ------------------------------------------------------------------------------
+/target/
+Cargo.lock
+
+# ------------------------------------------------------------------------------
+# eBPF / C Artifacts
+# ------------------------------------------------------------------------------
+# Ignore compiled BPF bytecode if generated outside the target directory
+*.bpf.o
+*.elf
+*.skel.h
+
+# ------------------------------------------------------------------------------
+# Systems & IPC
+# ------------------------------------------------------------------------------
+# Ignore Unix Domain Sockets created during local testing
+*.sock
+sysrag.sock
+
+# Ignore any local PID files or systemd test units
+*.pid
+
+# ------------------------------------------------------------------------------
+# AI & Machine Learning
+# ------------------------------------------------------------------------------
+# Ignore local model weights, ONNX files, or GGUF files
+*.onnx
+*.gguf
+*.bin
+*.safetensors
+
+# Ignore vector database persistence folders (for your roadmap)
+/vector_db/
+/embeddings/
+*.db
+*.sqlite
+*.sqlite3
+
+# ------------------------------------------------------------------------------
+# OS & Editor Files
+# ------------------------------------------------------------------------------
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

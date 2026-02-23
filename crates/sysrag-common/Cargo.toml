@@ -1,0 +1,11 @@
+[package]
+name = "sysrag-common"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <you@example.com>"]
+description = "Shared IPC structures for the Systems RAG project"
+
+[dependencies]
+# Serde is the absolute gold standard in Rust for handling JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

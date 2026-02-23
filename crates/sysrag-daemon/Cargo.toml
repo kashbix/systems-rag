@@ -1,0 +1,29 @@
+[package]
+name = "sysrag-daemon"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# The eBPF framework
+aya = "0.12"
+
+# Async runtime for handling the Ring Buffer and Sockets simultaneously
+tokio = { version = "1.0", features = ["full"] }
+
+# Error handling
+anyhow = "1.0"
+
+# AI Embeddings for the RAG math (Upgraded to v5 to fix the TLS/ORT bug)
+fastembed = "5.11"
+
+# Unique ID generation for anomalies
+uuid = { version = "1", features = ["v4"] }
+
+# JSON parsing for the Unix Socket IPC
+serde_json = "1.0"
+
+# Our shared IPC contract
+sysrag-common = { path = "../sysrag-common" }
+
+# HTTP client for talking to the local AI engine
+reqwest = { version = "0.12", features = ["json"] }
