@@ -57,3 +57,7 @@ Desktop.ini
 *.swp
 *.swo
 *~
+
+
+
+.fastembed_cache/
