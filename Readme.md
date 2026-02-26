@@ -35,7 +35,7 @@ This project is built on a highly optimized, air-gapped pipeline:
 The project uses a unified Makefile to compile both the C kernel bytecode and the Rust workspace.
 
 ```bash
-git clone https://github.com/yourusername/systems-rag.git
+git clone https://github.com/kashbix/systems-rag.git
 cd systems-rag
 make build
 
