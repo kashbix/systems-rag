@@ -63,6 +63,7 @@ impl LlmAnalyzer {
     }
 
     /// Constructs the context-rich prompt (The "RAG" part of the project)
+    /// Constructs the context-rich prompt (The "RAG" part of the project)
     fn build_security_prompt(&self, anomaly: &AnomalyReport) -> String {
         format!(
             "You are a strict, air-gapped Linux kernel security analyzer. \
@@ -75,14 +76,15 @@ impl LlmAnalyzer {
             4. If a flag like '-e' is used, explain exactly what '-e' does, do not substitute it with '-c'. \
             \
             ANOMALY DATA: \
+            PID: {} \
             Command: {} \
             Similarity Score: {:.2} \
+            Raw Log: {} \
             \
             Provide your forensic analysis now.",
-            anomaly.command, anomaly.similarity_score
-            anomaly.pid, 
+            anomaly.pid,
             anomaly.command, 
-            anomaly.similarity_score, 
+            anomaly.similarity_score,
             anomaly.raw_log
         )
     }
