@@ -16,7 +16,6 @@ impl LogEmbedder {
     }
 
     /// Converts a raw OS log string into a vector of f32 numbers.
-    /// Notice the `&mut self` here! The AI model needs a mutable memory buffer.
     pub fn embed_log(&mut self, log_text: &str) -> Result<Vec<f32>, anyhow::Error> {
         let documents = vec![log_text.to_string()];
         

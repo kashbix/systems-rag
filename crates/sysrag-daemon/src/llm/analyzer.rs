@@ -65,20 +65,21 @@ impl LlmAnalyzer {
     /// Constructs the context-rich prompt (The "RAG" part of the project)
     fn build_security_prompt(&self, anomaly: &AnomalyReport) -> String {
         format!(
-            "You are an expert Linux Security Architect. \n\
-            Analyze the following OS-level event intercepted via eBPF. \n\
-            \n\
-            [EVENT CONTEXT]\n\
-            Timestamp: {}\n\
-            Process ID: {}\n\
-            Command Executed: {}\n\
-            Mathematical Similarity to Baseline: {:.2} (0.0 is completely unknown, 1.0 is normal)\n\
-            Raw Kernel Log: {}\n\
-            \n\
-            [TASK]\n\
-            Explain in 2-3 short sentences what this command does, why it might be a security risk \
-            based on its low similarity score, and what the user should do next.",
-            anomaly.timestamp, 
+            "You are a strict, air-gapped Linux kernel security analyzer. \
+            Your job is to analyze the following intercepted process execution and explain the threat. \
+            \
+            CRITICAL INSTRUCTIONS: \
+            1. DO NOT hallucinate, guess, or invent command flags, IP addresses, or arguments. \
+            2. ONLY analyze the exact characters present in the command string. \
+            3. Be brutally concise and factual. \
+            4. If a flag like '-e' is used, explain exactly what '-e' does, do not substitute it with '-c'. \
+            \
+            ANOMALY DATA: \
+            Command: {} \
+            Similarity Score: {:.2} \
+            \
+            Provide your forensic analysis now.",
+            anomaly.command, anomaly.similarity_score
             anomaly.pid, 
             anomaly.command, 
             anomaly.similarity_score, 

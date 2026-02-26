@@ -1,9 +1,6 @@
-use std::collections::HashMap;
-
 pub struct VectorStore {
-    // Stores our baseline "normal" embeddings. 
-    // Key: Command name (e.g., "bash"), Value: Its normal vector representation
-    baseline: HashMap<String, Vec<f32>>,
+    // A flat list of our known "safe" mathematical vectors
+    baseline: Vec<Vec<f32>>,
     // The threshold below which a log is considered an anomaly
     anomaly_threshold: f32, 
 }
@@ -11,32 +8,38 @@ pub struct VectorStore {
 impl VectorStore {
     pub fn new(threshold: f32) -> Self {
         Self {
-            baseline: HashMap::new(),
+            baseline: Vec::new(),
             anomaly_threshold: threshold,
         }
     }
 
-    /// Add a known "good" log to the baseline
-    pub fn add_to_baseline(&mut self, command: &str, vector: Vec<f32>) {
-        self.baseline.insert(command.to_string(), vector);
+    /// Add a known "good" vector to the baseline
+    pub fn add_to_baseline(&mut self, _command: &str, vector: Vec<f32>) {
+        self.baseline.push(vector);
     }
 
-    /// Compares a new log vector against the baseline. 
-    /// Returns (is_anomaly, similarity_score)
-    pub fn check_anomaly(&self, command: &str, new_vector: &[f32]) -> (bool, f32) {
-        // If we've never seen this command before, it's instantly an anomaly (Score: 0.0)
-        let baseline_vector = match self.baseline.get(command) {
-            Some(v) => v,
-            None => return (true, 0.0), 
-        };
+    /// Compares a new log vector against ALL baseline vectors. 
+    /// Returns (is_anomaly, highest_similarity_score)
+    pub fn check_anomaly(&self, _command: &str, new_vector: &[f32]) -> (bool, f32) {
+        // Fail-safe: if the baseline is empty, everything looks alien
+        if self.baseline.is_empty() {
+            return (true, 0.0);
+        }
 
-        // Calculate Cosine Similarity
-        let score = self.cosine_similarity(baseline_vector, new_vector);
+        let mut max_score = 0.0;
+
+        // Semantic Search: Compare the new vector against EVERY known safe vector
+        for safe_vector in &self.baseline {
+            let score = self.cosine_similarity(safe_vector, new_vector);
+            if score > max_score {
+                max_score = score;
+            }
+        }
         
-        // If the score is lower than our threshold, flag it!
-        let is_anomaly = score < self.anomaly_threshold;
+        // If its highest match is still lower than our threshold, flag it!
+        let is_anomaly = max_score < self.anomaly_threshold;
         
-        (is_anomaly, score)
+        (is_anomaly, max_score)
     }
 
     /// The math engine: Calculates the distance between two vectors
