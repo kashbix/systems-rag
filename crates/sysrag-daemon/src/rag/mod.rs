@@ -21,7 +21,7 @@ impl RagEngine {
         
         let mut embedder = LogEmbedder::new()?;
         // We set a strict anomaly threshold. 
-        // Anything with a similarity below 0.6 is flagged.
+        // Anything with a similarity below 0.2 is flagged.
         let mut store = VectorStore::new(0.2); 
 
         // --- THE FIX: Seed the Baseline ---
