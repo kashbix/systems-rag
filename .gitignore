@@ -30,6 +30,7 @@ sysrag.sock
 *.gguf
 *.bin
 *.safetensors
+*.fastembed_cache/
 
 # Ignore vector database persistence folders (for your roadmap)
 /vector_db/
